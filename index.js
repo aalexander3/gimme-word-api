@@ -6,7 +6,6 @@ const axios = require('axios');
 const app = express()
 
 app.use(function(req, res, next) {
-  console.log('in cors set up');
   const origin = req.get('origin');
   res.header('Access-Control-Allow-Origin', origin);
   res.header('Access-Control-Allow-Credentials', true);
@@ -24,21 +23,14 @@ const makeRequest = async (query, req, res) => {
 
   axios.get(url)
     .then(response => {
-      console.log(response.data);
-
-      res.status(200).send({
-        message: query + ' sent successfully'
-      })
+      res.status(200).send(response.data)
     })
     .catch(error => {
       console.log(error);
     })
-
-
 }
 
 app.get('/api/v1/:query', async (req, res) => {
-  console.log("in the get", req.params)
   const response = await makeRequest(req.params.query, req, res)
 })
 
